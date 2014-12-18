@@ -5,7 +5,7 @@ Local REST interceptor and in memory storage. Mocks REST'full http backend
 
 Usage
 ------------
-
+###Start Server
 ```JavaScript
 //Create new LocalRESTServer instance
  var localServer = new LocalRESTServer();
@@ -24,6 +24,11 @@ Usage
  });
 
 ```
+###Stop Server
+```Javascript
+localServer.stop();
+```
+
 ###Seed data
 Data can be passed as an object literal or as array of objects
 ```Javascript
