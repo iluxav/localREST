@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-f
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(express.static(__dirname)); // set the static files location /public/img will be /img for users
 
-
 // start app ===============================================
 app.listen(port);	
 console.log('Magic happens on port ' + port); 			// shoutout to the user
