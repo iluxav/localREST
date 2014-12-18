@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Local REST Server Test</title>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angularjs/angular.js"></script>
+    <script src="src/localREST.js"></script>
+</head>
+
+<body ng-controller="home">
+    <input type="text" ng-model="url" style="width:65%" value="https://api.github.com/repos" id='url' />
+
+    <select ng-model="method" id='method' style="width:10%">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+    </select>
+    <button id='btnSend' onclick="send()" style="width:10%">jQuery Send</button>
+    <button id='btnSend' ng-click="click()" style="width:10%">ng Send</button>
+    <hr>
+    <textarea id="data" ng-model="data" rows="10" value='{"someKey":"some value"}' style="width:100%"></textarea>
+
+
+
+    <script type="text/javascript">
+        var localServer = new LocalRESTServer();
+        localServer.start({
+            endpoints: ['https://api.github.com/'],
+            seedData: [
+                {
+                    url: 'https://api.github.com/repos',
+                    data: {
+                        "some": "data"
+                    }
+                }
+            ]
+        });
+
+        function exec(method, url, data) {
+            console.log(method + ' url:' + url + '  data:', data);
+        }
+
+        function send() {
+            var url = document.querySelector('#url').value;
+            var method = document.querySelector('#method').value;
+            var data = document.querySelector('#data').value;
+            console.log('jQuery ' + method + ' url:' + url + '  data:', data);
+            $.ajax({
+                type: method,
+                url: url,
+                dataType: "json",
+                data: data,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log('ERROR ', arguments);
+                }
+            });
+        }
+
+        angular.module('myApp', []).controller('home', function ($scope, $http, $window) {
+            $scope.url = 'https://api.github.com/repos';
+            $scope.method = 'POST';
+            $scope.data = '{"sampleData":"Lets send somthing"}';
+           
+            $scope.click = function () {
+                 console.log('ANGULAR ' + $scope.method + ' url:' + $scope.url + '  data:', $scope.data);
+                $http[$scope.method.toLowerCase()]($scope.url, {
+                    data: $scope.data
+                }).success(function (d) {
+                    console.log('angular ', d);
+                }).error(function (e) {
+                    console.log('angular error', e);
+                });
+            };
+        });
+    </script>
+</body>
+
+</html>
