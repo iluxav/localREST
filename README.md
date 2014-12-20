@@ -2,8 +2,6 @@ Local REST server and xhr interceptor
 =====================================
 
 This JavaScript library provides a mock implementation of a REST API server. It replaces the XMLHttpRequest object and basically intercepts all the XHR call from your app.
-It supports jQuery AJAX calls and AngularJS $http provider.
-The idea is to start your project by simply defining you API first, add seed data if needed and just start reading and writing.
 
 All the data will be presisted in memory and/or local storage.
 
